@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Seçmen Platformu</title>
+  <meta name="description" content="Bulgaristan seçimleri için seçmen bilgilendirme, sandık sorgulama, otobüs ve araç paylaşımı platformu." />
+  <style>
+    :root {
+      --bg: #f4f7fb;
+      --card: #ffffff;
+      --text: #1f2937;
+      --muted: #6b7280;
+      --primary: #c62828;
+      --primary-dark: #8e1b1b;
+      --green: #1f7a3d;
+      --blue: #1e5aa8;
+      --gold: #d4a017;
+      --border: #e5e7eb;
+      --shadow: 0 10px 30px rgba(0,0,0,.08);
+      --radius: 18px;
+      --max: 1180px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    .topbar {
+      background: #fff3cd;
+      color: #6b4f00;
+      text-align: center;
+      padding: 10px 14px;
+      font-size: 14px;
+      border-bottom: 1px solid #f1df9c;
+    }
+
+    .hero {
+      background: linear-gradient(135deg, #0d3b8e 0%, #c62828 100%);
+      color: white;
+      padding: 56px 20px 40px;
+    }
+
+    .wrap {
+      max-width: var(--max);
+      margin: 0 auto;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap: 24px;
+      align-items: center;
+    }
+
+    .badge {
+      display: inline-block;
+      background: rgba(255,255,255,.14);
+      border: 1px solid rgba(255,255,255,.22);
+      padding: 8px 12px;
+      border-radius: 999px;
+      font-size: 13px;
+      margin-bottom: 16px;
+    }
+
+    h1 {
+      font-size: 44px;
+      line-height: 1.1;
+      margin: 0 0 14px;
+    }
+
+    .hero p {
+      font-size: 18px;
+      color: rgba(255,255,255,.92);
+      margin: 0 0 22px;
+      max-width: 700px;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 18px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      border: none;
+      border-radius: 14px;
+      padding: 15px 20px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: .2s ease;
+    }
+
+    .btn:hover { transform: translateY(-1px); }
+    .btn-primary { background: white; color: var(--primary); }
+    .btn-secondary { background: rgba(255,255,255,.12); color: white; border: 1px solid rgba(255,255,255,.25); }
+    .btn-green { background: var(--green); color: white; }
+    .btn-blue { background: var(--blue); color: white; }
+    .btn-gold { background: var(--gold); color: #222; }
+
+    .hero-note {
+      font-size: 14px;
+      color: rgba(255,255,255,.85);
+    }
+
+    .stats-card {
+      background: rgba(255,255,255,.1);
+      border: 1px solid rgba(255,255,255,.18);
+      backdrop-filter: blur(6px);
+      border-radius: var(--radius);
+      padding: 24px;
+      box-shadow: var(--shadow);
+    }
+
+    .stats-card h3 {
+      margin: 0 0 10px;
+      font-size: 20px;
+    }
+
+    .big-number {
+      font-size: 40px;
+      font-weight: bold;
+      margin: 10px 0;
+    }
+
+    .section {
+      padding: 34px 20px;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 22px;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px;
+      box-shadow: var(--shadow);
+    }
+
+    .card h2, .card h3 {
+      margin-top: 0;
+    }
+
+    .muted { color: var(--muted); }
+
+    .field {
+      width: 100%;
+      padding: 14px 15px;
+      border-radius: 12px;
+      border: 1px solid #d1d5db;
+      font-size: 15px;
+      margin-bottom: 12px;
+      background: white;
+    }
+
+    .mini-title {
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: .05em;
+      color: var(--muted);
+      margin-bottom: 8px;
+      font-weight: bold;
+    }
+
+    .info-list {
+      padding-left: 18px;
+      margin: 0;
+    }
+
+    .info-list li { margin-bottom: 8px; }
+
+    .cta-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+    }
+
+    .cta-box {
+      border-radius: 16px;
+      padding: 18px;
+      color: white;
+      min-height: 150px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      box-shadow: var(--shadow);
+    }
+
+    .red { background: linear-gradient(135deg, #d32f2f, #b71c1c); }
+    .blue { background: linear-gradient(135deg, #1565c0, #0d47a1); }
+    .green { background: linear-gradient(135deg, #2e7d32, #1b5e20); }
+    .gold { background: linear-gradient(135deg, #f0c14b, #d4a017); color: #222; }
+
+    .footer {
+      background: #111827;
+      color: #d1d5db;
+      padding: 32px 20px;
+      margin-top: 20px;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      gap: 20px;
+    }
+
+    .small { font-size: 14px; }
+
+    .highlight {
+      background: #eef5ff;
+      border: 1px solid #cfe1ff;
+      color: #133b74;
+      padding: 12px 14px;
+      border-radius: 12px;
+      margin-top: 12px;
+      font-size: 14px;
+    }
+
+    @media (max-width: 992px) {
+      .hero-grid, .grid-2, .grid-3, .cta-row, .footer-grid {
+        grid-template-columns: 1fr;
+      }
+      h1 { font-size: 34px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="topbar">
+    SMS ile geldiyseniz aşağıdaki butonla sandık, ulaşım ve destek bilgilerine hemen ulaşabilirsiniz.
+  </div>
+
+  <header class="hero">
+    <div class="wrap hero-grid">
+      <div>
+        <div class="badge">Bulgaristan Seçimleri Seçmen Bilgilendirme Platformu</div>
+        <h1>Sandığınızı, ulaşım seçeneklerini ve destek noktalarını tek yerden öğrenin.</h1>
+        <p>
+          Türkiye’de veya Bulgaristan’da nerede oy kullanabileceğinizi öğrenin. Otobüs organizasyonlarını görün,
+          bireysel araç paylaşımına katılın ve seçim günü için gerekli bilgilere hızlıca ulaşın.
+        </p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#sorgu">📍 Nerede oy kullanabileceğimi öğren</a>
+          <a class="btn btn-secondary" href="#ulasim">🚌 Ulaşım seçeneklerini gör</a>
+        </div>
+        <div class="hero-note">Her oy önemlidir. Katılım arttıkça temsil gücümüz artar.</div>
+      </div>
+
+      <div class="stats-card">
+        <h3>Canlı Bilgilendirme Alanı</h3>
+        <div class="big-number">38.742</div>
+        <div class="muted">seçmen sandık bilgisini görüntüledi</div>
+        <div class="highlight">
+          Seçim günü yaklaşırken sandık yerinizi ve ulaşım planınızı önceden öğrenmeniz tavsiye edilir.
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <section class="section" id="sorgu">
+    <div class="wrap grid-2">
+      <div class="card">
+        <div class="mini-title">Seçmen Sorgulama</div>
+        <h2>Sandığımı Göster</h2>
+        <p class="muted">Bilgilerinizi girin, oy kullanma yeriniz ve size uygun seçenekler görüntülensin.</p>
+        <input class="field" type="text" placeholder="Ad Soyad" />
+        <input class="field" type="text" placeholder="Doğum Tarihi" />
+        <input class="field" type="text" placeholder="Bulgaristan Kimlik No (EGN)" />
+        <button class="btn btn-primary" style="width:100%; background: var(--primary); color:white;">📍 Sandığımı Göster</button>
+        <div class="highlight">Not: Bu alan şu an taslak arayüzdür. Sonraki adımda gerçek sorgu sistemi bağlanacaktır.</div>
+      </div>
+
+      <div class="card">
+        <div class="mini-title">Hızlı Erişim</div>
+        <h2>Seçim Günü İçin Kısa Yol</h2>
+        <div class="grid-3">
+          <div>
+            <h3>Türkiye’de Oy</h3>
+            <p class="muted">Türkiye’de oy kullanabileceğiniz noktaları görüntüleyin.</p>
+          </div>
+          <div>
+            <h3>Bulgaristan’da Oy</h3>
+            <p class="muted">Sınır geçişi ve sandık bilgileriyle yol planınızı oluşturun.</p>
+          </div>
+          <div>
+            <h3>Destek</h3>
+            <p class="muted">WhatsApp ve iletişim kanallarıyla hızlı yardım alın.</p>
+          </div>
+        </div>
+        <div style="margin-top:16px; display:flex; gap:10px; flex-wrap:wrap;">
+          <a class="btn btn-green" href="#ulasim">🚌 Otobüs ile gitmek istiyorum</a>
+          <a class="btn btn-blue" href="#arac">🚗 Araç paylaşımı ile git</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="cta-row">
+        <div class="cta-box red">
+          <div>
+            <h3>Türkiye’de nerede oy kullanabilirim?</h3>
+            <p>En yakın seçim merkezlerini görün.</p>
+          </div>
+          <a class="btn btn-primary" href="#sorgu">Merkezleri görüntüle</a>
+        </div>
+        <div class="cta-box blue" id="ulasim">
+          <div>
+            <h3>Otobüs organizasyonu</h3>
+            <p>Şehrinizden planlanan ulaşım seçeneklerini inceleyin.</p>
+          </div>
+          <a class="btn btn-secondary" href="#ulasim-detay">Ulaşım detayları</a>
+        </div>
+        <div class="cta-box green" id="arac">
+          <div>
+            <h3>Araç paylaşımı</h3>
+            <p>Mahallenden giden aracı bul veya aracında yer paylaş.</p>
+          </div>
+          <a class="btn btn-secondary" href="#arac-detay">Araç paylaşımına geç</a>
+        </div>
+        <div class="cta-box gold">
+          <div>
+            <h3>WhatsApp destek</h3>
+            <p>Soruların için hızlı destek ve yönlendirme al.</p>
+          </div>
+          <a class="btn btn-primary" href="#iletisim">Destek al</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="ulasim-detay">
+    <div class="wrap grid-2">
+      <div class="card">
+        <div class="mini-title">Ulaşım</div>
+        <h2>Otobüs ile Gitmek İstiyorum</h2>
+        <p class="muted">Şehir, ilçe ve kişi bilgilerinizi girin. Uygun organizasyon size bildirilsin.</p>
+        <input class="field" type="text" placeholder="Şehir" />
+        <input class="field" type="text" placeholder="İlçe" />
+        <input class="field" type="number" placeholder="Kaç kişi gidecek?" />
+        <button class="btn btn-green" style="width:100%;">🚌 Ulaşım Kaydı Oluştur</button>
+      </div>
+
+      <div class="card" id="arac-detay">
+        <div class="mini-title">Araç Paylaşımı</div>
+        <h2>Bireysel Araçlarla Yolculuk</h2>
+        <p class="muted">BlaBlaCar benzeri sistemle mahallenden giden aracı bul veya kendi aracında yer aç.</p>
+        <div style="display:flex; gap:10px; flex-wrap:wrap; margin-bottom:12px;">
+          <button class="btn btn-blue">🚗 Araç Arıyorum</button>
+          <button class="btn btn-gold">🚙 Aracımda Yer Var</button>
+        </div>
+        <input class="field" type="text" placeholder="Şehir" />
+        <input class="field" type="text" placeholder="İlçe / Mahalle" />
+        <input class="field" type="text" placeholder="Gidilecek sınır kapısı" />
+        <button class="btn btn-blue" style="width:100%;">Yolculuk Bilgilerini Göster</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap grid-2">
+      <div class="card">
+        <div class="mini-title">Bilgilendirme</div>
+        <h2>Oy Kullanma İçin Gerekli Bilgiler</h2>
+        <ul class="info-list">
+          <li>Oy kullanmak için Bulgaristan vatandaşı olmanız gerekir.</li>
+          <li>Geçerli kimlik veya pasaport yanınızda bulunmalıdır.</li>
+          <li>Sandık yerinizi önceden öğrenmeniz zaman kazandırır.</li>
+          <li>Ulaşım planlamasını seçim gününden önce yapmanız önerilir.</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <div class="mini-title">Güven</div>
+        <h2>Bilgileriniz Güvende</h2>
+        <p class="muted">
+          Bu platform, seçmenlerin doğru bilgiye hızlı erişmesi için hazırlanmıştır. Girilen bilgiler yalnızca yönlendirme
+          ve bilgilendirme amaçlı kullanılacaktır.
+        </p>
+        <div class="highlight">Kişisel verileriniz izinsiz şekilde üçüncü kişilerle paylaşılmaz.</div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer" id="iletisim">
+    <div class="wrap footer-grid">
+      <div>
+        <h3 style="margin-top:0; color:white;">Seçmen Platformu</h3>
+        <p class="small">Bulgaristan seçimleri için seçmen bilgilendirme, sandık sorgulama, ulaşım ve destek platformu.</p>
+      </div>
+      <div>
+        <h4 style="color:white;">Hızlı Linkler</h4>
+        <p class="small"><a href="#sorgu">Sandık Sorgulama</a></p>
+        <p class="small"><a href="#ulasim">Ulaşım Seçenekleri</a></p>
+        <p class="small"><a href="#arac">Araç Paylaşımı</a></p>
+      </div>
+      <div>
+        <h4 style="color:white;">İletişim</h4>
+        <p class="small">WhatsApp Destek: +90 5xx xxx xx xx</p>
+        <p class="small">E-posta: destek@secmenplatformu.com</p>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
