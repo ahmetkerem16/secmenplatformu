@@ -19,7 +19,7 @@
       --border: #e5e7eb;
       --shadow: 0 10px 30px rgba(0,0,0,.08);
       --radius: 18px;
-      --max: 1180px;
+      --max: 1200px;
     }
 
     * { box-sizing: border-box; }
@@ -98,8 +98,8 @@
       gap: 8px;
       border: none;
       border-radius: 14px;
-      padding: 15px 20px;
-      font-size: 16px;
+      padding: 14px 18px;
+      font-size: 15px;
       font-weight: bold;
       cursor: pointer;
       transition: .2s ease;
@@ -111,6 +111,8 @@
     .btn-green { background: var(--green); color: white; }
     .btn-blue { background: var(--blue); color: white; }
     .btn-gold { background: var(--gold); color: #222; }
+    .btn-red { background: var(--primary); color: white; }
+    .btn-dark { background: #111827; color: white; }
 
     .hero-note {
       font-size: 14px;
@@ -153,6 +155,12 @@
       gap: 18px;
     }
 
+    .grid-4 {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+    }
+
     .card {
       background: var(--card);
       border: 1px solid var(--border);
@@ -167,7 +175,7 @@
 
     .muted { color: var(--muted); }
 
-    .field {
+    .field, select, textarea {
       width: 100%;
       padding: 14px 15px;
       border-radius: 12px;
@@ -175,6 +183,12 @@
       font-size: 15px;
       margin-bottom: 12px;
       background: white;
+      font-family: inherit;
+    }
+
+    textarea {
+      min-height: 110px;
+      resize: vertical;
     }
 
     .mini-title {
@@ -240,8 +254,117 @@
       font-size: 14px;
     }
 
+    .result {
+      margin-top: 14px;
+      padding: 16px;
+      border-radius: 14px;
+      background: #f0fdf4;
+      border: 1px solid #b7ebc6;
+      color: #14532d;
+    }
+
+    .warn {
+      margin-top: 14px;
+      padding: 16px;
+      border-radius: 14px;
+      background: #fff7ed;
+      border: 1px solid #fed7aa;
+      color: #9a3412;
+    }
+
+    .trip-list {
+      display: grid;
+      gap: 12px;
+      margin-top: 12px;
+    }
+
+    .trip-item {
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 14px;
+      background: #fff;
+    }
+
+    .trip-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      flex-wrap: wrap;
+      font-weight: bold;
+    }
+
+    .pill {
+      display: inline-block;
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      background: #edf2ff;
+      color: #224;
+      margin-right: 6px;
+      margin-top: 6px;
+    }
+
+    .admin-panel {
+      display: none;
+      margin-top: 18px;
+      border-top: 1px dashed #cbd5e1;
+      padding-top: 18px;
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+      margin-top: 12px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: white;
+      border-radius: 12px;
+      overflow: hidden;
+      font-size: 14px;
+    }
+
+    th, td {
+      border: 1px solid #e5e7eb;
+      padding: 10px;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      background: #f8fafc;
+    }
+
+    .counter-box {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 14px;
+      padding: 16px;
+    }
+
+    .sticky-wa {
+      position: fixed;
+      right: 18px;
+      bottom: 18px;
+      z-index: 999;
+    }
+
+    .sticky-wa a {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 58px;
+      height: 58px;
+      background: #25D366;
+      color: white;
+      border-radius: 999px;
+      box-shadow: 0 10px 30px rgba(0,0,0,.18);
+      font-size: 26px;
+    }
+
     @media (max-width: 992px) {
-      .hero-grid, .grid-2, .grid-3, .cta-row, .footer-grid {
+      .hero-grid, .grid-2, .grid-3, .grid-4, .cta-row, .footer-grid {
         grid-template-columns: 1fr;
       }
       h1 { font-size: 34px; }
@@ -250,7 +373,7 @@
 </head>
 <body>
   <div class="topbar">
-    SMS ile geldiyseniz aşağıdaki butonla sandık, ulaşım ve destek bilgilerine hemen ulaşabilirsiniz.
+    SMS ile geldiyseniz aşağıdaki butonlarla sandık, ulaşım ve destek bilgilerine hemen ulaşabilirsiniz.
   </div>
 
   <header class="hero">
@@ -265,14 +388,15 @@
         <div class="hero-actions">
           <a class="btn btn-primary" href="#sorgu">📍 Nerede oy kullanabileceğimi öğren</a>
           <a class="btn btn-secondary" href="#ulasim">🚌 Ulaşım seçeneklerini gör</a>
+          <a class="btn btn-secondary" href="#admin">📊 Yönetim Paneli</a>
         </div>
         <div class="hero-note">Her oy önemlidir. Katılım arttıkça temsil gücümüz artar.</div>
       </div>
 
       <div class="stats-card">
         <h3>Canlı Bilgilendirme Alanı</h3>
-        <div class="big-number">38.742</div>
-        <div class="muted">seçmen sandık bilgisini görüntüledi</div>
+        <div class="big-number" id="heroCounter">0</div>
+        <div class="muted">toplam kayıt ve talep oluşturuldu</div>
         <div class="highlight">
           Seçim günü yaklaşırken sandık yerinizi ve ulaşım planınızı önceden öğrenmeniz tavsiye edilir.
         </div>
@@ -286,11 +410,17 @@
         <div class="mini-title">Seçmen Sorgulama</div>
         <h2>Sandığımı Göster</h2>
         <p class="muted">Bilgilerinizi girin, oy kullanma yeriniz ve size uygun seçenekler görüntülensin.</p>
-        <input class="field" type="text" placeholder="Ad Soyad" />
-        <input class="field" type="text" placeholder="Doğum Tarihi" />
-        <input class="field" type="text" placeholder="Bulgaristan Kimlik No (EGN)" />
-        <button class="btn btn-primary" style="width:100%; background: var(--primary); color:white;">📍 Sandığımı Göster</button>
-        <div class="highlight">Not: Bu alan şu an taslak arayüzdür. Sonraki adımda gerçek sorgu sistemi bağlanacaktır.</div>
+
+        <input id="fullName" class="field" type="text" placeholder="Ad Soyad" />
+        <input id="birthDate" class="field" type="date" />
+        <input id="egn" class="field" type="text" placeholder="Bulgaristan Kimlik No (EGN)" maxlength="10" />
+
+        <select id="queryCity" class="field"></select>
+        <select id="queryDistrict" class="field"></select>
+        <select id="queryNeighborhood" class="field"></select>
+
+        <button class="btn btn-red" style="width:100%;" onclick="showPollingResult()">📍 Sandığımı Göster</button>
+        <div id="pollingResult"></div>
       </div>
 
       <div class="card">
@@ -313,6 +443,7 @@
         <div style="margin-top:16px; display:flex; gap:10px; flex-wrap:wrap;">
           <a class="btn btn-green" href="#ulasim">🚌 Otobüs ile gitmek istiyorum</a>
           <a class="btn btn-blue" href="#arac">🚗 Araç paylaşımı ile git</a>
+          <a class="btn btn-gold" href="#iletisim">💬 WhatsApp destek</a>
         </div>
       </div>
     </div>
@@ -359,24 +490,51 @@
         <div class="mini-title">Ulaşım</div>
         <h2>Otobüs ile Gitmek İstiyorum</h2>
         <p class="muted">Şehir, ilçe ve kişi bilgilerinizi girin. Uygun organizasyon size bildirilsin.</p>
-        <input class="field" type="text" placeholder="Şehir" />
-        <input class="field" type="text" placeholder="İlçe" />
-        <input class="field" type="number" placeholder="Kaç kişi gidecek?" />
-        <button class="btn btn-green" style="width:100%;">🚌 Ulaşım Kaydı Oluştur</button>
+
+        <input id="busName" class="field" type="text" placeholder="Ad Soyad" />
+        <input id="busPhone" class="field" type="text" placeholder="Telefon" />
+        <select id="transportCity" class="field"></select>
+        <select id="transportDistrict" class="field"></select>
+        <input id="transportPeople" class="field" type="number" min="1" placeholder="Kaç kişi gidecek?" />
+        <textarea id="busNote" class="field" placeholder="Ek not (isteğe bağlı)"></textarea>
+
+        <button class="btn btn-green" style="width:100%;" onclick="createBusRequest()">🚌 Ulaşım Kaydı Oluştur</button>
+        <div id="busResult"></div>
+
+        <div class="trip-list" id="busRoutesList"></div>
       </div>
 
       <div class="card" id="arac-detay">
         <div class="mini-title">Araç Paylaşımı</div>
         <h2>Bireysel Araçlarla Yolculuk</h2>
-        <p class="muted">BlaBlaCar benzeri sistemle mahallenden giden aracı bul veya kendi aracında yer aç.</p>
-        <div style="display:flex; gap:10px; flex-wrap:wrap; margin-bottom:12px;">
-          <button class="btn btn-blue">🚗 Araç Arıyorum</button>
-          <button class="btn btn-gold">🚙 Aracımda Yer Var</button>
-        </div>
-        <input class="field" type="text" placeholder="Şehir" />
-        <input class="field" type="text" placeholder="İlçe / Mahalle" />
-        <input class="field" type="text" placeholder="Gidilecek sınır kapısı" />
-        <button class="btn btn-blue" style="width:100%;">Yolculuk Bilgilerini Göster</button>
+        <p class="muted">Mahallenden giden aracı bul veya kendi aracında yer aç.</p>
+
+        <input id="carName" class="field" type="text" placeholder="Ad Soyad" />
+        <input id="carPhone" class="field" type="text" placeholder="Telefon" />
+
+        <select id="carMode" class="field">
+          <option value="Araç Arıyorum">Araç Arıyorum</option>
+          <option value="Aracımda Yer Var">Aracımda Yer Var</option>
+        </select>
+
+        <select id="carCity" class="field"></select>
+        <select id="carDistrict" class="field"></select>
+        <select id="carNeighborhood" class="field"></select>
+
+        <select id="borderGate" class="field">
+          <option value="Kapıkule">Kapıkule</option>
+          <option value="Hamzabeyli">Hamzabeyli</option>
+          <option value="Dereköy">Dereköy</option>
+        </select>
+
+        <input id="carTime" class="field" type="time" />
+        <input id="carSeats" class="field" type="number" min="1" placeholder="Boş koltuk sayısı / ihtiyaç sayısı" />
+        <textarea id="carNote" class="field" placeholder="Ek not (isteğe bağlı)"></textarea>
+
+        <button class="btn btn-blue" style="width:100%;" onclick="handleCarAction()">🚗 İşlemi Uygula</button>
+        <div id="carResult"></div>
+
+        <div class="trip-list" id="tripList"></div>
       </div>
     </div>
   </section>
@@ -401,7 +559,58 @@
           Bu platform, seçmenlerin doğru bilgiye hızlı erişmesi için hazırlanmıştır. Girilen bilgiler yalnızca yönlendirme
           ve bilgilendirme amaçlı kullanılacaktır.
         </p>
-        <div class="highlight">Kişisel verileriniz izinsiz şekilde üçüncü kişilerle paylaşılmaz.</div>
+        <div class="highlight">Kişisel verileriniz bu demo sürümde tarayıcı hafızasında saklanır. Gerçek üretim sürümünde sunucu/veritabanı bağlantısı kurulmalıdır.</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="admin">
+    <div class="wrap">
+      <div class="card">
+        <div class="mini-title">Yönetim</div>
+        <h2>Admin Paneli</h2>
+        <p class="muted">Bu panel demo amaçlıdır. Şifreyi girince tarayıcı içinde kayıtları listeler.</p>
+
+        <div class="grid-4">
+          <div class="counter-box">
+            <div class="mini-title">Seçmen Sorgu</div>
+            <h3 id="countPolling">0</h3>
+          </div>
+          <div class="counter-box">
+            <div class="mini-title">Otobüs Talebi</div>
+            <h3 id="countBus">0</h3>
+          </div>
+          <div class="counter-box">
+            <div class="mini-title">Araç Paylaşımı</div>
+            <h3 id="countCar">0</h3>
+          </div>
+          <div class="counter-box">
+            <div class="mini-title">Toplam</div>
+            <h3 id="countTotal">0</h3>
+          </div>
+        </div>
+
+        <div style="margin-top:16px;">
+          <input id="adminPassword" class="field" type="password" placeholder="Admin şifresi" />
+          <div style="display:flex; gap:10px; flex-wrap:wrap;">
+            <button class="btn btn-dark" onclick="toggleAdminPanel()">🔐 Paneli Aç</button>
+            <button class="btn btn-gold" onclick="exportData()">⬇️ Verileri İndir</button>
+            <button class="btn btn-red" onclick="clearAllData()">🗑️ Tüm Kayıtları Sil</button>
+          </div>
+        </div>
+
+        <div id="adminMessage"></div>
+
+        <div id="adminPanel" class="admin-panel">
+          <h3>Seçmen Sorguları</h3>
+          <div class="table-wrap" id="pollingTableWrap"></div>
+
+          <h3 style="margin-top:20px;">Otobüs Talepleri</h3>
+          <div class="table-wrap" id="busTableWrap"></div>
+
+          <h3 style="margin-top:20px;">Araç Paylaşımı Kayıtları</h3>
+          <div class="table-wrap" id="carTableWrap"></div>
+        </div>
       </div>
     </div>
   </section>
@@ -425,5 +634,489 @@
       </div>
     </div>
   </footer>
+
+  <div class="sticky-wa">
+    <a href="https://wa.me/905000000000?text=Merhaba%20Se%C3%A7men%20Platformu%20destek%20ekibi%2C%20bilgi%20almak%20istiyorum." target="_blank" aria-label="WhatsApp">💬</a>
+  </div>
+
+  <script>
+    const ADMIN_PASSWORD = "12345";
+
+    const data = {
+      "Bursa": {
+        "Osmangazi": ["Altıparmak", "Çekirge", "Demirtaş", "Emek", "Hamitler", "Yunuseli"],
+        "Yıldırım": ["Arabayatağı", "Değirmenlikızık", "Erikli", "Mimarsinan", "Siteler", "Yiğitler"],
+        "Nilüfer": ["Beşevler", "Ertuğrul", "FSM", "Görükle", "İhsaniye", "Küçükbalıklı"],
+        "İnegöl": ["Alanyurt", "Cerrah", "Mesudiye", "Süleymaniye"]
+      },
+      "İstanbul": {
+        "Avcılar": ["Cihangir", "Denizköşkler", "Firuzköy", "Mustafa Kemal Paşa"],
+        "Bağcılar": ["Güneşli", "Kirazlı", "Mahmutbey", "Yüzyıl"],
+        "Esenyurt": ["Ardıçlı", "Cumhuriyet", "İncirtepe", "Mehterçeşme", "Saadetdere"],
+        "Küçükçekmece": ["Atakent", "Halkalı", "Kanarya", "Sefaköy"]
+      },
+      "İzmir": {
+        "Buca": ["Adatepe", "Şirinyer", "Yıldız", "Yaylacık"],
+        "Bornova": ["Erzene", "Kazımdirik", "Pınarbaşı"],
+        "Karabağlar": ["Bozyaka", "Günaltay", "Yeşilyurt"]
+      },
+      "Kocaeli": {
+        "Gebze": ["Beylikbağı", "Cumhuriyet", "İstasyon", "Yenikent"],
+        "İzmit": ["Alikahya", "Bekirdere", "Yenişehir"]
+      },
+      "Tekirdağ": {
+        "Çorlu": ["Alipaşa", "Havuzlar", "Muhittin", "Reşadiye"],
+        "Süleymanpaşa": ["Aydoğdu", "Değirmenaltı", "Ertuğrul"]
+      }
+    };
+
+    const busRoutes = [
+      { city: "Bursa", district: "Osmangazi", departure: "06:00", gate: "Kapıkule", seats: 14 },
+      { city: "İstanbul", district: "Esenyurt", departure: "05:30", gate: "Kapıkule", seats: 22 },
+      { city: "İzmir", district: "Buca", departure: "22:30", gate: "Hamzabeyli", seats: 11 },
+      { city: "Tekirdağ", district: "Çorlu", departure: "07:00", gate: "Kapıkule", seats: 9 }
+    ];
+
+    const defaultTrips = [
+      { from: "Bursa / Yıldırım / Erikli", to: "Kapıkule", seats: 2, time: "05:45", type: "Aracımda Yer Var", name: "Örnek Kayıt", phone: "-" },
+      { from: "İstanbul / Esenyurt / Mehterçeşme", to: "Kapıkule", seats: 3, time: "04:30", type: "Aracımda Yer Var", name: "Örnek Kayıt", phone: "-" },
+      { from: "Tekirdağ / Çorlu / Muhittin", to: "Kapıkule", seats: 1, time: "06:15", type: "Aracımda Yer Var", name: "Örnek Kayıt", phone: "-" },
+      { from: "Bursa / Osmangazi / Demirtaş", to: "Hamzabeyli", seats: 2, time: "23:00", type: "Aracımda Yer Var", name: "Örnek Kayıt", phone: "-" }
+    ];
+
+    const pollingCenters = [
+      { city: "Bursa", location: "Bursa Başkonsolosluk Geçici Seçim Noktası", address: "Nilüfer / Bursa" },
+      { city: "İstanbul", location: "İstanbul Konsolosluk Seçim Merkezi", address: "Şişli / İstanbul" },
+      { city: "İzmir", location: "İzmir Seçim Destek Noktası", address: "Konak / İzmir" },
+      { city: "Tekirdağ", location: "Çorlu Bölgesel Destek Masası", address: "Çorlu / Tekirdağ" },
+      { city: "Kocaeli", location: "Kocaeli Bölgesel Seçim Destek Noktası", address: "İzmit / Kocaeli" }
+    ];
+
+    function getStorage(key, fallback) {
+      const raw = localStorage.getItem(key);
+      return raw ? JSON.parse(raw) : fallback;
+    }
+
+    function setStorage(key, value) {
+      localStorage.setItem(key, JSON.stringify(value));
+    }
+
+    function getPollingRecords() {
+      return getStorage("pollingRecords", []);
+    }
+
+    function getBusRecords() {
+      return getStorage("busRecords", []);
+    }
+
+    function getCarRecords() {
+      return getStorage("carRecords", []);
+    }
+
+    function setPollingRecords(list) {
+      setStorage("pollingRecords", list);
+    }
+
+    function setBusRecords(list) {
+      setStorage("busRecords", list);
+    }
+
+    function setCarRecords(list) {
+      setStorage("carRecords", list);
+    }
+
+    function fillSelect(selectId, options, placeholder) {
+      const select = document.getElementById(selectId);
+      select.innerHTML = "";
+      const first = document.createElement("option");
+      first.value = "";
+      first.textContent = placeholder;
+      select.appendChild(first);
+      options.forEach(opt => {
+        const o = document.createElement("option");
+        o.value = opt;
+        o.textContent = opt;
+        select.appendChild(o);
+      });
+    }
+
+    function setupCityDistrictNeighborhood(cityId, districtId, neighborhoodId) {
+      fillSelect(cityId, Object.keys(data), "Şehir seçin");
+      fillSelect(districtId, [], "İlçe seçin");
+      if (neighborhoodId) fillSelect(neighborhoodId, [], "Mahalle seçin");
+
+      document.getElementById(cityId).addEventListener("change", function () {
+        const city = this.value;
+        const districts = city ? Object.keys(data[city]) : [];
+        fillSelect(districtId, districts, "İlçe seçin");
+        if (neighborhoodId) fillSelect(neighborhoodId, [], "Mahalle seçin");
+        if (cityId === "transportCity") renderBusRoutes();
+        if (cityId === "carCity") renderTrips();
+      });
+
+      document.getElementById(districtId).addEventListener("change", function () {
+        if (!neighborhoodId) {
+          if (districtId === "transportDistrict") renderBusRoutes();
+          return;
+        }
+        const city = document.getElementById(cityId).value;
+        const district = this.value;
+        const neighborhoods = city && district ? data[city][district] : [];
+        fillSelect(neighborhoodId, neighborhoods, "Mahalle seçin");
+        if (districtId === "carDistrict") renderTrips();
+      });
+
+      if (neighborhoodId) {
+        document.getElementById(neighborhoodId).addEventListener("change", function () {
+          if (neighborhoodId === "carNeighborhood") renderTrips();
+        });
+      }
+    }
+
+    function nowString() {
+      return new Date().toLocaleString("tr-TR");
+    }
+
+    function updateCounters() {
+      const polling = getPollingRecords().length;
+      const bus = getBusRecords().length;
+      const car = getCarRecords().length;
+      const total = polling + bus + car;
+
+      document.getElementById("countPolling").textContent = polling;
+      document.getElementById("countBus").textContent = bus;
+      document.getElementById("countCar").textContent = car;
+      document.getElementById("countTotal").textContent = total;
+      document.getElementById("heroCounter").textContent = total;
+    }
+
+    function showPollingResult() {
+      const fullName = document.getElementById("fullName").value.trim();
+      const birthDate = document.getElementById("birthDate").value;
+      const egn = document.getElementById("egn").value.trim();
+      const city = document.getElementById("queryCity").value;
+      const district = document.getElementById("queryDistrict").value;
+      const neighborhood = document.getElementById("queryNeighborhood").value;
+
+      if (!fullName || !birthDate || !egn || !city || !district || !neighborhood) {
+        document.getElementById("pollingResult").innerHTML = `<div class="warn">Lütfen tüm seçmen sorgulama alanlarını doldurun.</div>`;
+        return;
+      }
+
+      const center = pollingCenters.find(p => p.city === city) || pollingCenters[0];
+
+      document.getElementById("pollingResult").innerHTML = `
+        <div class="result">
+          <strong>${fullName}</strong> için önerilen kayıt bulundu.<br><br>
+          <strong>Şehir:</strong> ${city}<br>
+          <strong>İlçe:</strong> ${district}<br>
+          <strong>Mahalle:</strong> ${neighborhood}<br>
+          <strong>Oy Kullanma Merkezi:</strong> ${center.location}<br>
+          <strong>Adres:</strong> ${center.address}<br><br>
+          <span>Ulaşım seçeneklerini aşağıdan inceleyebilirsiniz.</span>
+        </div>
+      `;
+
+      const records = getPollingRecords();
+      records.unshift({
+        name: fullName,
+        birthDate,
+        egn,
+        city,
+        district,
+        neighborhood,
+        center: center.location,
+        address: center.address,
+        createdAt: nowString()
+      });
+      setPollingRecords(records);
+      updateCounters();
+      renderAdminTables();
+    }
+
+    function renderBusRoutes() {
+      const city = document.getElementById("transportCity").value;
+      const district = document.getElementById("transportDistrict").value;
+      const list = document.getElementById("busRoutesList");
+
+      const filtered = busRoutes.filter(r => {
+        if (city && r.city !== city) return false;
+        if (district && r.district !== district) return false;
+        return true;
+      });
+
+      if (!filtered.length) {
+        list.innerHTML = `<div class="highlight">Bu seçim için seçilen bölgeye ait planlanmış otobüs kaydı şu an görünmüyor.</div>`;
+        return;
+      }
+
+      list.innerHTML = filtered.map(r => `
+        <div class="trip-item">
+          <div class="trip-top">
+            <span>${r.city} / ${r.district}</span>
+            <span>${r.departure}</span>
+          </div>
+          <div class="muted" style="margin-top:6px;">Sınır Kapısı: ${r.gate}</div>
+          <div class="pill">${r.seats} boş koltuk</div>
+        </div>
+      `).join("");
+    }
+
+    function createBusRequest() {
+      const name = document.getElementById("busName").value.trim();
+      const phone = document.getElementById("busPhone").value.trim();
+      const city = document.getElementById("transportCity").value;
+      const district = document.getElementById("transportDistrict").value;
+      const people = document.getElementById("transportPeople").value;
+      const note = document.getElementById("busNote").value.trim();
+
+      if (!name || !phone || !city || !district || !people) {
+        document.getElementById("busResult").innerHTML = `<div class="warn">Lütfen ad soyad, telefon, şehir, ilçe ve kişi sayısını girin.</div>`;
+        return;
+      }
+
+      const records = getBusRecords();
+      records.unshift({
+        name,
+        phone,
+        city,
+        district,
+        people,
+        note,
+        createdAt: nowString()
+      });
+      setBusRecords(records);
+
+      document.getElementById("busResult").innerHTML = `
+        <div class="result">
+          ${city} / ${district} için <strong>${people}</strong> kişilik ulaşım talebiniz oluşturuldu.<br>
+          Kayıt yönetim paneline işlendi.
+        </div>
+      `;
+
+      document.getElementById("busName").value = "";
+      document.getElementById("busPhone").value = "";
+      document.getElementById("transportPeople").value = "";
+      document.getElementById("busNote").value = "";
+
+      updateCounters();
+      renderAdminTables();
+    }
+
+    function getAllTrips() {
+      const saved = getCarRecords().map(item => ({
+        from: `${item.city} / ${item.district} / ${item.neighborhood}`,
+        to: item.borderGate,
+        seats: item.seats,
+        time: item.time,
+        type: item.mode,
+        name: item.name,
+        phone: item.phone
+      }));
+      return [...saved, ...defaultTrips];
+    }
+
+    function renderTrips() {
+      const city = document.getElementById("carCity").value;
+      const district = document.getElementById("carDistrict").value;
+      const neighborhood = document.getElementById("carNeighborhood").value;
+      const gate = document.getElementById("borderGate").value;
+      const list = document.getElementById("tripList");
+
+      const trips = getAllTrips();
+
+      const filtered = trips.filter(t => {
+        if (city && !t.from.startsWith(city)) return false;
+        if (district && !t.from.includes("/ " + district + " /")) return false;
+        if (neighborhood && !t.from.endsWith("/ " + neighborhood)) return false;
+        if (gate && t.to !== gate) return false;
+        return true;
+      });
+
+      if (!filtered.length) {
+        list.innerHTML = `<div class="highlight">Seçtiğiniz kriterlere uygun aktif araç paylaşımı kaydı bulunamadı.</div>`;
+        return;
+      }
+
+      list.innerHTML = filtered.map(t => `
+        <div class="trip-item">
+          <div class="trip-top">
+            <span>${t.from}</span>
+            <span>${t.time || "-"}</span>
+          </div>
+          <div class="muted" style="margin-top:6px;">Varış sınır kapısı: ${t.to}</div>
+          <div class="pill">${t.type}</div>
+          <div class="pill">${t.seats} kişi</div>
+          <div class="pill">${t.name}</div>
+        </div>
+      `).join("");
+    }
+
+    function handleCarAction() {
+      const name = document.getElementById("carName").value.trim();
+      const phone = document.getElementById("carPhone").value.trim();
+      const mode = document.getElementById("carMode").value;
+      const city = document.getElementById("carCity").value;
+      const district = document.getElementById("carDistrict").value;
+      const neighborhood = document.getElementById("carNeighborhood").value;
+      const borderGate = document.getElementById("borderGate").value;
+      const time = document.getElementById("carTime").value;
+      const seats = document.getElementById("carSeats").value;
+      const note = document.getElementById("carNote").value.trim();
+
+      if (!name || !phone || !city || !district || !neighborhood || !time || !seats) {
+        document.getElementById("carResult").innerHTML = `<div class="warn">Lütfen ad soyad, telefon, şehir, ilçe, mahalle, saat ve sayı alanlarını doldurun.</div>`;
+        return;
+      }
+
+      const records = getCarRecords();
+      records.unshift({
+        name,
+        phone,
+        mode,
+        city,
+        district,
+        neighborhood,
+        borderGate,
+        time,
+        seats,
+        note,
+        createdAt: nowString()
+      });
+      setCarRecords(records);
+
+      document.getElementById("carResult").innerHTML = `
+        <div class="result">
+          <strong>${mode}</strong> kaydınız oluşturuldu.<br>
+          <strong>Bölge:</strong> ${city} / ${district} / ${neighborhood}<br>
+          <strong>Sınır Kapısı:</strong> ${borderGate}<br>
+          <strong>Saat:</strong> ${time}<br>
+          <strong>Sayı:</strong> ${seats}<br><br>
+          Kayıt sistemde görüntülenmeye hazır.
+        </div>
+      `;
+
+      document.getElementById("carName").value = "";
+      document.getElementById("carPhone").value = "";
+      document.getElementById("carTime").value = "";
+      document.getElementById("carSeats").value = "";
+      document.getElementById("carNote").value = "";
+
+      updateCounters();
+      renderTrips();
+      renderAdminTables();
+    }
+
+    function arrayToTable(list, headersMap) {
+      if (!list.length) {
+        return `<div class="highlight">Kayıt bulunmuyor.</div>`;
+      }
+
+      const headers = Object.keys(headersMap);
+      const th = headers.map(h => `<th>${headersMap[h]}</th>`).join("");
+      const rows = list.map(item => {
+        return `<tr>${headers.map(h => `<td>${item[h] ?? ""}</td>`).join("")}</tr>`;
+      }).join("");
+
+      return `<table><thead><tr>${th}</tr></thead><tbody>${rows}</tbody></table>`;
+    }
+
+    function renderAdminTables() {
+      document.getElementById("pollingTableWrap").innerHTML = arrayToTable(getPollingRecords(), {
+        name: "Ad Soyad",
+        birthDate: "Doğum Tarihi",
+        egn: "EGN",
+        city: "Şehir",
+        district: "İlçe",
+        neighborhood: "Mahalle",
+        center: "Merkez",
+        address: "Adres",
+        createdAt: "Tarih"
+      });
+
+      document.getElementById("busTableWrap").innerHTML = arrayToTable(getBusRecords(), {
+        name: "Ad Soyad",
+        phone: "Telefon",
+        city: "Şehir",
+        district: "İlçe",
+        people: "Kişi",
+        note: "Not",
+        createdAt: "Tarih"
+      });
+
+      document.getElementById("carTableWrap").innerHTML = arrayToTable(getCarRecords(), {
+        name: "Ad Soyad",
+        phone: "Telefon",
+        mode: "Tür",
+        city: "Şehir",
+        district: "İlçe",
+        neighborhood: "Mahalle",
+        borderGate: "Sınır Kapısı",
+        time: "Saat",
+        seats: "Sayı",
+        note: "Not",
+        createdAt: "Tarih"
+      });
+    }
+
+    function toggleAdminPanel() {
+      const password = document.getElementById("adminPassword").value;
+      const panel = document.getElementById("adminPanel");
+      const msg = document.getElementById("adminMessage");
+
+      if (password !== ADMIN_PASSWORD) {
+        msg.innerHTML = `<div class="warn">Şifre hatalı.</div>`;
+        panel.style.display = "none";
+        return;
+      }
+
+      msg.innerHTML = `<div class="result">Admin paneli açıldı.</div>`;
+      panel.style.display = "block";
+      renderAdminTables();
+    }
+
+    function exportData() {
+      const data = {
+        pollingRecords: getPollingRecords(),
+        busRecords: getBusRecords(),
+        carRecords: getCarRecords()
+      };
+
+      const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(blob);
+      a.download = "secmenplatformu-kayitlar.json";
+      a.click();
+    }
+
+    function clearAllData() {
+      const password = document.getElementById("adminPassword").value;
+      if (password !== ADMIN_PASSWORD) {
+        document.getElementById("adminMessage").innerHTML = `<div class="warn">Tüm kayıtları silmek için doğru admin şifresi girin.</div>`;
+        return;
+      }
+
+      localStorage.removeItem("pollingRecords");
+      localStorage.removeItem("busRecords");
+      localStorage.removeItem("carRecords");
+
+      document.getElementById("adminMessage").innerHTML = `<div class="result">Tüm kayıtlar silindi.</div>`;
+      document.getElementById("pollingResult").innerHTML = "";
+      document.getElementById("busResult").innerHTML = "";
+      document.getElementById("carResult").innerHTML = "";
+      updateCounters();
+      renderTrips();
+      renderAdminTables();
+    }
+
+    setupCityDistrictNeighborhood("queryCity", "queryDistrict", "queryNeighborhood");
+    setupCityDistrictNeighborhood("transportCity", "transportDistrict", null);
+    setupCityDistrictNeighborhood("carCity", "carDistrict", "carNeighborhood");
+
+    renderBusRoutes();
+    renderTrips();
+    updateCounters();
+    renderAdminTables();
+  </script>
 </body>
 </html>
